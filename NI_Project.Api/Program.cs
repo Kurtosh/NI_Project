@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<LibraryDataContext>(
+builder.Services.AddDbContext<BookDataContext>(
     options =>
     {
         options.UseSqlite(builder.Configuration.GetConnectionString("SQLite"));
