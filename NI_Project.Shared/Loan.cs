@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NI_Project.Shared
 {
-    internal class Loan
+    public class Loan
     {
         [Required]
         public string ReaderId { get; set; }

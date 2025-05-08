@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NI_Project.Shared
 {
-    internal class Book
+    public class Book
     {
         [Required]
         public string Id { get; set; }

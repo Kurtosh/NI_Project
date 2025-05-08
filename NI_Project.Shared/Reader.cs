@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NI_Project.Shared
 {
-    internal class Reader
+    public class Reader
     {
         [Required]
         public string Id { get; set; }
