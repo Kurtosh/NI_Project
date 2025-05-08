@@ -1,22 +1,40 @@
+using Microsoft.EntityFrameworkCore;
+using NI_Project.Api;
+using NI_Project.Api.Interfaces;
+using NI_Project.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<LibraryDataContext>(
+    options =>
+    {
+        options.UseSqlite(builder.Configuration.GetConnectionString("SQLite"));
+        options.UseLazyLoadingProxies();
+    });
+
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<IBookService, BookService>();
+builder.Services.AddSingleton<IReaderService, ReaderService>();
+
+builder.Services.AddCors();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
-app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
