@@ -1,0 +1,6 @@
+@NI_Project.Api_HostAddress = http://localhost:5105
+
+GET {{NI_Project.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
