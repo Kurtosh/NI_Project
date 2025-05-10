@@ -12,7 +12,7 @@ namespace NI_Project.Shared
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         [Required]
         public string Title { get; set; }
         [Required]
