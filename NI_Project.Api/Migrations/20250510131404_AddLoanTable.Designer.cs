@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NI_Project.Api;
 
@@ -10,9 +11,11 @@ using NI_Project.Api;
 namespace NI_Project.Api.Migrations
 {
     [DbContext(typeof(BookDataContext))]
-    partial class BookDataContextModelSnapshot : ModelSnapshot
+    [Migration("20250510131404_AddLoanTable")]
+    partial class AddLoanTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
