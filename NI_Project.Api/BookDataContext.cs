@@ -12,5 +12,6 @@ namespace NI_Project.Api
         }
 
         public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Reader> Readers { get; set; }
     }
 }
