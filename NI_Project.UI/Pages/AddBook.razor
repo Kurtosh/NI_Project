@@ -1,0 +1,21 @@
+﻿@page "/books/add"
+@using NI_Project.Shared
+@using NI_Project.UI.Services
+@using NI_Project.UI.Components
+@inject IBooksService BooksService
+@inject NavigationManager NavigationManager
+
+<h3>Add book</h3>
+
+<BookForm Book="_book" OnValidSubmit="AddBookAsync" ButtonText="Add book" />
+
+@code {
+    
+    private Book _book = new();
+
+    private async Task AddBookAsync()
+    {
+        await BooksService.AddBookAsync(_book);
+        NavigationManager.NavigateTo("/books");
+    }
+}
