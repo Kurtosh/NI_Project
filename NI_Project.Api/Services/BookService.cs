@@ -6,7 +6,7 @@ namespace NI_Project.Api.Services
 {
     public class BookService : IBookService
     {
-        private readonly List<Book> _books;
+        private readonly List<Book> _books = new List<Book>();
         public void Add(Book book)
         {
             _books.Add(book);
