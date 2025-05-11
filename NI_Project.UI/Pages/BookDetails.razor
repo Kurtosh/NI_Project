@@ -1,0 +1,44 @@
+﻿@page "/books/{id}"
+@using NI_Project.Shared
+@using NI_Project.UI.Services
+@using NI_Project.UI.Components
+@inject IBooksService BooksService
+@inject NavigationManager NavigationManager
+
+<h3>Person details</h3>
+
+@if (_book is not null)
+{
+    <BookForm Book="_book" OnValidSubmit="UpdateAsync" ButtonText="Update book" />
+    
+    <button class="btn btn-danger" @onclick="DeleteAsync">Delete book</button>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+
+    private Book _book;
+
+    [Parameter]
+    public string Id { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _book = await BooksService.GetBookAsync(Id);
+    }
+
+    private async Task DeleteAsync()
+    {
+        await BooksService.DeleteBookAsync(Id);
+        NavigationManager.NavigateTo("/books");
+    }
+
+    private async Task UpdateAsync()
+    {
+        await BooksService.UpdateBookAsync(Id, _book);
+        NavigationManager.NavigateTo("/books");
+    }
+}
