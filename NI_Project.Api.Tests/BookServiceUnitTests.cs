@@ -14,78 +14,141 @@ namespace NI_Project.Api.Tests
         public void ValidBook_AddBook_AddsBook()
         {
             var service = new BookService();
-            var book = new Book { Id = "1", Title = "Test", Author = "Author", Publisher = "Publisher", YearOfPublish = 2020 };
+            var book = new Book
+            {
+                Id = "b1",
+                Title = "Test Book",
+                Author = "Author",
+                Publisher = "Publisher",
+                YearOfPublish = 2020
+            };
 
             service.Add(book);
-            var result = service.GetAll();
+            var result = service.Get("b1");
 
-            Assert.Equal("Test", result[0].Title);
+            Assert.Equal("Test Book", result.Title);
+        }
+
+        [Fact]
+        public void InvalidBook_ShouldThrowArgumentNullException_ThrowsArgumentNullException()
+        {
+            var service = new BookService();
+            Assert.Throws<ArgumentNullException>(() => service.Add(null));
+        }
+
+        [Fact]
+        public void AlreadyExistingBook_ShouldThrowArgumentException_ThrowsArgumentException()
+        {
+            var service = new BookService();
+            var book = new Book { Id = "b2", Title = "Dup" };
+            service.Add(book);
+
+            var duplicate = new Book { Id = "b2", Title = "Dup2" };
+            Assert.Throws<ArgumentException>(() => service.Add(duplicate));
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void NullOrEmptyId_ShouldThrowArgumentNullException_ThrowsArgumentNullException(string id)
+        {
+            var service = new BookService();
+            Assert.Throws<ArgumentNullException>(() => service.Delete(id));
+        }
+
+        [Fact]
+        public void NotExistingBook_ShouldThrowKeyNotFoundException_ThrowsKeyNotFoundException()
+        {
+            var service = new BookService();
+            Assert.Throws<KeyNotFoundException>(() => service.Delete("missing"));
         }
 
         [Fact]
         public void ExistingBook_ShouldRemoveBook_RemovesBook()
         {
             var service = new BookService();
-            var book = new Book { Id = "1", Title = "To Be Deleted" };
-
+            var book = new Book { Id = "b3", Title = "To Remove" };
             service.Add(book);
-            service.Delete("1");
 
-            Assert.Empty(service.GetAll());
+            service.Delete("b3");
+
+            Assert.Throws<KeyNotFoundException>(() => service.Get("b3"));
         }
 
         [Fact]
-        public void ValidBookId_ShouldReturnCorrectBook_ReturnsCorrectBook()
+        public void ValidBook_ShouldReturnCorrectBook_ReturnsCorrectBook()
         {
             var service = new BookService();
-            var book = new Book { Id = "2", Title = "Find Me" };
-
+            var book = new Book { Id = "b5", Title = "Find Me" };
             service.Add(book);
-            var result = service.Get("2");
+
+            var result = service.Get("b5");
 
             Assert.NotNull(result);
             Assert.Equal("Find Me", result.Title);
         }
 
-        [Fact]
-        public void InvalidBookId_ShouldReturnNull_ReturnsNulld()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void NullOrEmptyIdGet_ShouldThrowArgumentNullException_ThrowsArgumentNullException(string id)
         {
             var service = new BookService();
-            var result = service.Get("nonexistent");
-
-            Assert.Null(result);
+            Assert.Throws<ArgumentNullException>(() => service.Get(id));
         }
 
         [Fact]
-        public void ValidBookId_ShouldUpdateOldBook_UpdatesOldBook()
+        public void NotExistingReaderGet_ShouldThrowKeyNotFoundException_ThrowsKeyNotFoundException()
         {
             var service = new BookService();
-            var originalBook = new Book
+            Assert.Throws<KeyNotFoundException>(() => service.Get("missing"));
+        }
+
+        [Fact]
+        public void ValidBook_ShouldModifyBook_ModifiesBook()
+        {
+            var service = new BookService();
+            var original = new Book
             {
-                Id = "3",
+                Id = "b4",
                 Title = "Old Title",
                 Author = "Old Author",
                 Publisher = "Old Publisher",
-                YearOfPublish = 1999
+                YearOfPublish = 2000
             };
-            service.Add(originalBook);
+            service.Add(original);
 
-            var updatedBook = new Book
+            var updated = new Book
             {
-                Id = "3",
+                Id = "b4",
                 Title = "New Title",
                 Author = "New Author",
                 Publisher = "New Publisher",
-                YearOfPublish = 2022
+                YearOfPublish = 2023
             };
-            service.Update(updatedBook);
 
-            var result = service.Get("3");
+            service.Update(updated);
+            var result = service.Get("b4");
 
             Assert.Equal("New Title", result.Title);
             Assert.Equal("New Author", result.Author);
             Assert.Equal("New Publisher", result.Publisher);
-            Assert.Equal(2022, result.YearOfPublish);
+            Assert.Equal(2023, result.YearOfPublish);
+        }
+
+        [Fact]
+        public void InvalidBookUpdate_ShouldThrowArgumentNullException_ThrowsArgumentNullException()
+        {
+            var service = new BookService();
+            Assert.Throws<ArgumentNullException>(() => service.Update(null));
+        }
+
+        [Fact]
+        public void NotExistingBookUpdate_ShouldThrowKeyNotFoundException_ThrowsKeyNotFoundException()
+        {
+            var service = new BookService();
+            var book = new Book { Id = "nonexist", Title = "Ghost Book" };
+            Assert.Throws<KeyNotFoundException>(() => service.Update(book));
         }
     }
 }

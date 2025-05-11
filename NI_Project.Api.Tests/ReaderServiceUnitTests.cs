@@ -69,7 +69,7 @@ namespace NI_Project.Api.Tests
         }
 
         [Fact]
-        public void AlreadyExistingReader_ShouldThrowKeyNotFoundException_ThrowsKeyNotFoundException()
+        public void NotExistingReader_ShouldThrowKeyNotFoundException_ThrowsKeyNotFoundException()
         {
             var service = new ReaderService();
             Assert.Throws<KeyNotFoundException>(() => service.Delete("notfound"));
@@ -98,7 +98,7 @@ namespace NI_Project.Api.Tests
         }
 
         [Fact]
-        public void NotExistingReader_ShouldThrowKeyNotFoundException_ThrowsKeyNotFoundException()
+        public void NotExistingReaderGet_ShouldThrowKeyNotFoundException_ThrowsKeyNotFoundException()
         {
             var service = new ReaderService();
             Assert.Throws<KeyNotFoundException>(() => service.Get("missing"));
