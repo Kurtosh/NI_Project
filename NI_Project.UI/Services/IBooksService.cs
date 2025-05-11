@@ -11,8 +11,8 @@ namespace NI_Project.UI.Services
 
         Task AddBookAsync(Book book);
 
-        Task UpdateBookAsync(Book book);
+        Task UpdateBookAsync(string id, Book book);
 
-        Task DeletePersonAsync(string id);
+        Task DeleteBookAsync(string id);
     }
 }
