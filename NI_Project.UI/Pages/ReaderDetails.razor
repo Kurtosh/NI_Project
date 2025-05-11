@@ -1,0 +1,44 @@
+﻿@page "/readers/{id}"
+@using NI_Project.Shared
+@using NI_Project.UI.Services
+@using NI_Project.UI.Components
+@inject IReadersService ReadersService
+@inject NavigationManager NavigationManager
+
+<h3>Person details</h3>
+
+@if (_reader is not null)
+{
+    <ReaderForm Reader="_reader" OnValidSubmit="UpdateAsync" ButtonText="Update reader" />
+
+    <button class="btn btn-danger" @onclick="DeleteAsync">Delete reader</button>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+
+    private Reader _reader;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _reader = await ReadersService.GetReaderAsync(Id);
+    }
+
+    private async Task DeleteAsync()
+    {
+        await ReadersService.DeleteReaderAsync(Id);
+        NavigationManager.NavigateTo("/readers");
+    }
+
+    private async Task UpdateAsync()
+    {
+        await ReadersService.UpdateReaderAsync(Id, _reader);
+        NavigationManager.NavigateTo("/readers");
+    }
+}

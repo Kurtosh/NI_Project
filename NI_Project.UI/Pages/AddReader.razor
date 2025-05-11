@@ -1,0 +1,21 @@
+﻿@page "/readers/add"
+@using NI_Project.Shared
+@using NI_Project.UI.Services
+@using NI_Project.UI.Components
+@inject IReadersService ReadersService
+@inject NavigationManager NavigationManager
+
+<h3>Add reader</h3>
+
+<ReaderForm Reader="_reader" OnValidSubmit="AddBookAsync" ButtonText="Add book" />
+
+@code {
+
+    private Reader _reader = new();
+
+    private async Task AddBookAsync()
+    {
+        await ReadersService.AddReaderAsync(_reader);
+        NavigationManager.NavigateTo("/readers");
+    }
+}

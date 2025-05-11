@@ -10,5 +10,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7091") });
 
 builder.Services.AddScoped<IBooksService, BooksService>();
+builder.Services.AddScoped<IReadersService, ReadersService>();
 
 await builder.Build().RunAsync();
