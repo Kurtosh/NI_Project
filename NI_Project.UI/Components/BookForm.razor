@@ -11,17 +11,17 @@
     </div>
     <div class="mb-3">
         <label class="form-label">Author</label>
-        <InputText type="email" @bind-Value="Book.Author" class="form-control" />
+        <InputText @bind-Value="Book.Author" class="form-control" />
         <ValidationMessage For="() => Book.Author" />
     </div>
     <div class="mb-3">
         <label class="form-label">Publisher</label>
-        <InputDate @bind-Value="Book.Publisher" class="form-control" />
+        <InputText @bind-Value="Book.Publisher" class="form-control" />
         <ValidationMessage For="() => Book.Publisher" />
     </div>
     <div class="mb-3">
         <label class="form-label">Year of Publish</label>
-        <InputDate @bind-Value="Book.YearOfPublish" class="form-control" />
+        <InputNumber @bind-Value="Book.YearOfPublish" class="form-control" />
         <ValidationMessage For="() => Book.YearOfPublish" />
     </div>
 
