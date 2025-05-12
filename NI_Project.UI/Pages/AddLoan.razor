@@ -1,0 +1,21 @@
+﻿@page "/loans/add"
+@using NI_Project.Shared
+@using NI_Project.UI.Services
+@using NI_Project.UI.Components
+@inject ILoansService LoansService
+@inject NavigationManager NavigationManager
+
+<h3>Add loan</h3>
+
+<LoanForm Loan="_loan" OnValidSubmit="AddLoanAsync" ButtonText="Add loan" />
+
+@code {
+
+    private Loan _loan= new();
+
+    private async Task AddLoanAsync()
+    {
+        await LoansService.AddLoanAsync(_loan);
+        NavigationManager.NavigateTo("/loans");
+    }
+}

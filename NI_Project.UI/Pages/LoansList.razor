@@ -1,0 +1,51 @@
+﻿@page "/loans"
+@using NI_Project.Shared;
+@using NI_Project.UI.Services
+@inject ILoansService LoansService
+
+<h3>Loans</h3>
+
+<div class="mb-3">
+    <a href="/loans/add" class="btn btn-primary">Add loan</a>
+</div>
+
+@if (_loans is not null)
+{
+    <table class="table table-hover border">
+        <thead>
+            <tr>
+                <th>ReaderId</th>
+                <th>BookId</th>
+                <th>Loan Date</th>
+                <th>Return Deadline</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var loan in _loans)
+            {
+                <tr>
+                    <td>@loan.ReaderId</td>
+                    <td>@loan.BookId</td>
+                    <td>@loan.LoanDate</td>
+                    <td>@loan.ReturnDeadline</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+
+    private List<Loan> _loans;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _loans = await LoansService.GetLoansAsync();
+    }
+
+}
